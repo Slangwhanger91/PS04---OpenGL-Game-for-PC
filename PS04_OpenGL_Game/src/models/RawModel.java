@@ -1,4 +1,4 @@
-package renderEngine;
+package models;
 
 /**Represents a 3D model stored in memory*/
 public class RawModel {
