@@ -32,8 +32,9 @@ public class Renderer {
 	
 	/**will be called once every frame to prepare OpenGL to render the game.*/
 	public void prepare(){
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT|GL11.GL_DEPTH_BUFFER_BIT);
 		GL11.glClearColor(0, 0, 1, 1);//backgrounds: (red, green, blue, x)
-		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 	}
 	
 	public void render(Entity entity, StaticShader shader){
