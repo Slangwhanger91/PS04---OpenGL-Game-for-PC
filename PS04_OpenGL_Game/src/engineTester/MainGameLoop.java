@@ -4,7 +4,9 @@ import models.RawModel;
 import models.TexturedModel;
 
 import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector3f;
 
+import entities.Entity;
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import renderEngine.Renderer;
@@ -13,12 +15,12 @@ import textures.ModelTexture;
 
 public class MainGameLoop {
 	public static void main(String[] args) {
+		
 		DisplayManager.createDisplay();
-
 		Loader loader = new Loader();
-		Renderer renderer = new Renderer();
 		StaticShader shader = new StaticShader();
-
+		Renderer renderer = new Renderer(shader);
+		
 		//openGL expects vertices to be defined counter clockwise by default
 		float[] vertices = {
 				-0.5f, 0.5f, 0,
@@ -40,14 +42,17 @@ public class MainGameLoop {
 		};
 
 		RawModel model = loader.loadToVAO(vertices, textureCoords, indices);
-		ModelTexture texture = new ModelTexture(loader.loadTexture("myImage"));
-		TexturedModel texturedModel = new TexturedModel(model, texture);
+		
+		TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("myImage")));
 
+		Entity entity = new Entity(staticModel, new Vector3f(0,0,-1), 0, 0, 0, 1);
+		
 		while(!Display.isCloseRequested()){
-			//game logic
+			entity.increasePosition(0.0001f, 0.0f, 0.0002f);//move entity
+			entity.increaseRotation(0.0f, 0.5f, 0.1f);//rotate entity
 			renderer.prepare();
 			shader.start();
-			renderer.render(texturedModel);
+			renderer.render(entity, shader);
 			shader.stop();
 			DisplayManager.updateDisplay();
 		}
