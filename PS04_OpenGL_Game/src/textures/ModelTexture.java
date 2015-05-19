@@ -6,6 +6,10 @@ public class ModelTexture {
 	
 	private float shineDamper = 1;
 	private float reflectivity = 0;
+	
+	public ModelTexture(int id){
+		this.textureID = id;
+	}
 
 	public float getShineDamper() {
 		return shineDamper;
@@ -21,10 +25,6 @@ public class ModelTexture {
 
 	public void setReflectivity(float reflectivity) {
 		this.reflectivity = reflectivity;
-	}
-
-	public ModelTexture(int id){
-		this.textureID = id;
 	}
 
 	public int getID(){
