@@ -12,9 +12,8 @@ import org.lwjgl.util.vector.Vector3f;
 
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
+import renderEngine.MasterRenderer;
 import renderEngine.OBJLoader;
-import renderEngine.Renderer;
-import shaders.StaticShader;
 import textures.ModelTexture;
 import entities.Camera;
 import entities.Entity;
@@ -25,8 +24,6 @@ public class MainGameLoop {
 
 		DisplayManager.createDisplay();
 		Loader loader = new Loader();
-		StaticShader shader = new StaticShader();
-		Renderer renderer = new Renderer(shader);
 
 		//openGL expects vertices to be defined counter clockwise by default
 
@@ -74,27 +71,24 @@ public class MainGameLoop {
 			float z = random.nextFloat() * -300;
 			allEntities.add(new Entity(all_textures[i % all_textures.length], new Vector3f(x, y, z), random.nextFloat() * 180f,
 					random.nextFloat() * 180f, 0f, 1f));
+			//f.e: new Entity(staticModel, new Vector3f(0,-5,-20), 0, 0, 0, 1);//entity position, preset color and scale
 		}
 		//test2
 
 		Camera camera = new Camera();
-
+		MasterRenderer renderer = new MasterRenderer();
 		while(!Display.isCloseRequested()){
 			camera.move();
-			renderer.prepare();
-			shader.start();
-			shader.loadLight(light);
-			shader.loadViewMatrix(camera);
-			for(Entity entity : allEntities){
+			for(Entity entity:allEntities){
 				entity.increasePosition(0.0f, 0.0f, 0.0f);//move entity on x,y,z
-				entity.increaseRotation(0.0f, 0.3f, 0.0f);//rotate entity around x,y,z
-				renderer.render(entity, shader);
+				entity.increaseRotation(0.0f, 0.6f, 0.0f);//rotate entity around x,y,z
+				renderer.processEntity(entity);
 			}
-			shader.stop();
+			renderer.render(light, camera);
 			DisplayManager.updateDisplay();
 		}
 
-		shader.cleanUp();
+		renderer.cleanUp();
 		loader.cleanUp();
 		DisplayManager.closeDisplay();
 	}
