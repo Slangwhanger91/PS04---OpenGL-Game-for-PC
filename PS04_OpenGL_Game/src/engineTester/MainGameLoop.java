@@ -97,14 +97,12 @@ public class MainGameLoop {
 		while(!Display.isCloseRequested()){
 			camera.move();
 			renderer.processEntity(sun);
-			renderer.processEntity(sun);
 			sun.increaseRotation(0.01f, 0.01f, 0);
 			
 			for(Entity entity:allEntities){
 			entity.increasePosition(0.0f, 0.0f, 0.0f);//move entity on x,y,z
 			entity.increaseRotation(0.0f, 0.6f, 0.0f);//rotate entity around x,y,z
 			renderer.processEntity(entity);
-			renderer.processEntity(entity);//bug?
 			}
 			renderer.processTerrain(terrain);
 			renderer.processTerrain(terrain2);

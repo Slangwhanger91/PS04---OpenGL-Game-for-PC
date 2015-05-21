@@ -76,6 +76,7 @@ public class MasterRenderer {
 			batch.add(entity);
 		}else{
 			List<Entity> newBatch = new ArrayList<Entity>();
+			newBatch.add(entity);
 			entities.put(entityModel, newBatch);
 		}
 	}
